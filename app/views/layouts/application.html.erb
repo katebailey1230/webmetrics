@@ -7,8 +7,20 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-
-<%= yield %>
-
+  <div class="container">
+              <ul class="nav nav-tabs">
+                  <li><%= link_to "Blocmetrics", welcome_index_path %></li>
+                  <li><%= link_to "About", welcome_about_path %></li>
+                  <% if current_user %>
+                  <li><%= link_to('Logout', destroy_user_session_path, :method => :delete) %></li>
+              <% else %>
+                  <li><%= link_to('Login', new_user_session_path)  %></li>
+                  <li><%= link_to('Register now!', new_user_registration_path)  %></li>
+                  <% end %>
+              </ul>
+              <p class="notice"><%= notice %></p>
+              <p class="alert"><%= alert %></p>
+              <%= yield %>
+          </div>
 </body>
 </html>
