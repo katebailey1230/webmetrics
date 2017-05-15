@@ -11,6 +11,7 @@ source 'https://rubygems.org'
  group :development do
    gem 'sqlite3'
    gem 'web-console', '~> 2.0'
+   gem 'letter_opener'
  end
 
  gem 'sass-rails', '~> 5.0'
@@ -20,6 +21,8 @@ source 'https://rubygems.org'
  gem 'turbolinks'
  gem 'bootstrap'
  gem 'figaro'
+ gem 'devise'
+ gem 'pundit'
 
  group :development, :test do
    gem 'byebug'
