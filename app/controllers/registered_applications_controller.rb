@@ -2,20 +2,20 @@ class RegisteredApplicationsController < ApplicationController
 
   def new
     @registered_app = RegisteredApplication.new
-
+    @user = User
   end
 
 
   def create
-    @app = RegisteredApplication.new(application_params)
-    @app.user = current_user
+    @user = current_user
+    @app = current_user.registered_applications.build(application_params)
 
     if @app.save
       flash[:notice] = "#{@app.name} was updated successfully."
-      redirect_to created_registered_applications
+      redirect_to registered_applications_path
     else
       flash.now[:alert] = "There was an error updating the app."
-      render :edit
+      render :new
     end
   end
 
@@ -28,13 +28,13 @@ class RegisteredApplicationsController < ApplicationController
       redirect_to registered_applications_path
     else
       flash.now[:notice] = "There was an error unregistering the app."
-      render :edit
+      render :new
     end
   end
 
   def show
     @app = RegisteredApplication.find(params[:user_id])
-    @user = User.find(current_user.id)
+    @user = User.find(current_user)
 
   end
 

@@ -1,4 +1,4 @@
-<%= form_for new_user_registered_application_path do |f| %>
+<%= form_for [@user, @registered_app] do |f| %>
 <div class="form-group">
 <%= f.label :name %>
 <%= f.text_field :name, class: 'form-control', placeholder: "Enter app name", autofocus: true %>

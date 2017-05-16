@@ -10,8 +10,7 @@
   <div class="container">
               <ul class="nav nav-tabs">
                   <li><%= link_to "Blocmetrics", welcome_index_path %></li>
-                  <li><%= link_to "About", welcome_about_path %></li>
-                  <li><%= link_to "URLs", registered_applications_index_path %></li>
+                  <li><%= link_to "URLs", registered_applications_path %></li>
                   <% if current_user %>
                   <li><%= link_to('Logout', destroy_user_session_path, :method => :delete) %></li>
               <% else %>
