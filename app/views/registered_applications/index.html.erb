@@ -1,0 +1,19 @@
+<div class="container">
+  <h1>Registered Applications</h1>
+
+  <div class="media">
+    <div class="media-body">
+      <h4 class="media-heading">
+        <% @app.each do |app| %>
+          <%= link_to app.name, [current_user, app] %>
+          <br>
+          <small>
+            <%= app.url %><br><br>
+          </small>
+        <% end %>
+      </h4>
+    </div>
+  </div>
+
+  <%= link_to "New Application", new_user_registered_application_path(@user), class: 'btn btn-success' %>
+</div>
