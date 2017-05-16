@@ -33,9 +33,8 @@ class RegisteredApplicationsController < ApplicationController
   end
 
   def show
-    @app = RegisteredApplication.find(params[:user_id])
-    @user = User.find(current_user)
-
+    @registered_application = RegisteredApplication.find(params[:name])
+    @events_group = @registered_application.event.group_by(&:name)
   end
 
   def index
@@ -47,7 +46,7 @@ class RegisteredApplicationsController < ApplicationController
   private
 
     def application_params
-      params.require(:registered_application).permit(:name, :url)
+      params.require(:registered_application).permit(:name)
     end
 
     def user_log_in?

@@ -3,7 +3,9 @@ devise_for :users
   resources :users, only: [] do
    resources :registered_applications
  end
-  resources :registered_applications
+  resources :registered_applications do
+    resources :events, only: [:create]
+  end
 
   authenticated do
      root to: 'registered_apps#index', as: :authenticated_root

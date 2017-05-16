@@ -2,13 +2,26 @@
   <div class="media">
     <div class="media-body">
       <h1 class="media-heading">
-          <%= @app.name %>
+          <%= @registered_app.name %>
           <br>
           <small>
-            <%= @app.url %><br><br>
+            <%= @registered_app.url %><br><br>
           </small>
-          <%= link_to "Delete Application", user_registered_applications_path, method: :delete, class: 'btn btn-danger' %>
       </h1>
+      <div class="container">
+        <h4>
+          <div class="row">
+            <%= "Events for #{@registered_app.name}" %>
+          </div>
+          <% @event_groups.each do |group| %>
+            <div class="col-md-4">
+              <%= group[0] %>
+            </div>
+            <%= group[1].count %><br>
+          <% end %>
+        </h4><br>
+      </div>
+      <%= link_to "Delete Application", user_registered_app_path, method: :delete, class: 'btn btn-danger' %>
     </div>
   </div>
 </div>
