@@ -21,7 +21,7 @@ class RegisteredApplicationsController < ApplicationController
 
 
   def destroy
-    @app = RegisteredApplication.find(params[:user_id])
+    @app = RegisteredApplication.find(params[:id])
 
     if @app.destroy
       flash[:notice] = "#{@app.name} was unregistered successfully."
@@ -32,21 +32,22 @@ class RegisteredApplicationsController < ApplicationController
     end
   end
 
-  def show
-    @registered_application = RegisteredApplication.find(params[:name])
-    @events_group = @registered_application.event.group_by(&:name)
+  def index
+    @event = Event.all
+    @registered_application = RegisteredApplication.all
+    @events_group = @event.group_by(&:name)
   end
 
-  def index
-    @app = RegisteredApplication.all
-    @user = User.find(current_user.id)
+  def show
+    @registered_application = RegisteredApplication.all
+    @user = User.find(current_user)
   end
 
 
   private
 
     def application_params
-      params.require(:registered_application).permit(:name)
+      params.require(:registered_application).permit(:name, :url, :user_id)
     end
 
     def user_log_in?

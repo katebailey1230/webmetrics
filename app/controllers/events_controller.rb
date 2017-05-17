@@ -1,7 +1,7 @@
 class EventsController < ApplicationController
   def create
     @registered_app = RegisteredApplication.find(params[:registered_application_id])
-    @event = @registered_application.event.new(event_params)
+    @event = @registered_app.event.new(event_params)
 
     if @event.save
       flash[:notice] = "Event saved successfully."
@@ -14,7 +14,7 @@ class EventsController < ApplicationController
   private
 
   def event_params
-    params.require(:event).permit(:name)
+    params.require(:event).permit(:registered_application_id, :id)
   end
 
 end

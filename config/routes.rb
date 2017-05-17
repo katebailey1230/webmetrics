@@ -1,17 +1,12 @@
 Rails.application.routes.draw do
-devise_for :users
-  resources :users, only: [] do
-   resources :registered_applications
- end
-  resources :registered_applications do
-    resources :events, only: [:create]
-  end
+  devise_for :users
+   get 'welcome/index'
+   get 'welcome/about'
 
-  authenticated do
-     root to: 'registered_apps#index', as: :authenticated_root
+    resources :registered_applications do
+     resources :events
    end
 
-   get 'welcome/index'
-   root to: 'welcome#index'
+   root to: 'registered_applications#index'
 
  end
