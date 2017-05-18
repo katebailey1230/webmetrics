@@ -11,22 +11,24 @@ end
 
 users = User.all
 
-30.times do
+10.times do
   RegisteredApplication.create!(
-    name: Faker::App.name,
+    name: Faker::Company.name,
     url: Faker::Internet.url,
     user: users.sample
   )
 end
 
-registered_apps = RegisteredApplication.all
+registered_application = RegisteredApplication.all
 
-100.times do
+20.times do
   Event.create!(
-    name: Faker::Hacker.verb,
-    registered_application: registered_apps.sample,
+    name: Faker::Lorem.word,
+    registered_application: registered_application.sample
   )
 end
+
+events = Event.all
 
 puts "Seed Data Created"
 puts "#{User.count} users created"

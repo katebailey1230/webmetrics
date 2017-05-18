@@ -7,5 +7,6 @@ class CreateRegisteredApplications < ActiveRecord::Migration
 
       t.timestamps null: false
     end
+    add_index :applications, :url, unique: true
   end
 end

@@ -1,23 +1,23 @@
 class RegisteredApplicationsController < ApplicationController
 
   def new
-    @registered_app = RegisteredApplication.new
-    @user = User
+    @registered_application = RegisteredApplication.new
   end
 
 
   def create
-    @user = current_user
-    @app = current_user.registered_applications.build(application_params)
+    @registered_application = RegisteredApplication.new
 
-    if @app.save
-      flash[:notice] = "#{@app.name} was updated successfully."
-      redirect_to registered_applications_path
-    else
-      flash.now[:alert] = "There was an error updating the app."
-      render :new
+      respond_to do |format|
+        if @registered_application.save
+          format.html { redirect_to @registered_application, notice: 'Registered application was successfully created.' }
+          format.json { render :show, status: :created, location: @registered_application }
+        else
+          format.html { render :new }
+          format.json { render json: @registered_application.errors, status: :unprocessable_entity }
+        end
+      end
     end
-  end
 
 
   def destroy
@@ -25,7 +25,7 @@ class RegisteredApplicationsController < ApplicationController
 
     if @app.destroy
       flash[:notice] = "#{@app.name} was unregistered successfully."
-      redirect_to registered_applications_path
+      redirect_to registered_application_path
     else
       flash.now[:notice] = "There was an error unregistering the app."
       render :new
@@ -34,15 +34,27 @@ class RegisteredApplicationsController < ApplicationController
 
   def index
     @event = Event.all
-    @registered_application = RegisteredApplication.all
-    @events_group = @event.group_by(&:name)
+    @registered_application = current_user.registered_applications
+
   end
 
   def show
-    @registered_application = RegisteredApplication.all
+    @registered_application = current_user.registered_applications
     @user = User.find(current_user)
   end
 
+  def update
+    @registered_application = RegisteredApplication.find(params[:id])
+    respond_to do |format|
+      if @registered_application.update(registered_application_params)
+        format.html { redirect_to @registered_application, notice: 'Registered application was successfully updated.' }
+        format.json { render :show, status: :ok, location: @registered_application }
+      else
+        format.html { render :edit }
+        format.json { render json: @registered_application.errors, status: :unprocessable_entity }
+      end
+    end
+  end
 
   private
 

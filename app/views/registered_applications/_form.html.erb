@@ -1,13 +1,13 @@
-<%= form_for [@user, @registered_app] do |f| %>
+<%= form_for (@registered_application) do |f| %>
 <div class="form-group">
-<%= f.label :name %>
-<%= f.text_field :name, class: 'form-control', placeholder: "Enter app name", autofocus: true %>
+    <%= f.label :name %>
+    <%= f.text_field :name, class: 'form-control', placeholder: "Enter app name", autofocus: true %>
 </div>
 <div class="form-group">
-<%= f.label :url %>
-<%= f.text_field :url, class: 'form-control', placeholder: "Enter app url" %>
+    <%= f.label :url %>
+    <%= f.text_field :url, class: 'form-control', placeholder: "Enter app url" %>
 </div>
-<div class="form-group">
-<%= f.submit "Save", class: 'btn btn-success' %>
+<div class="actions">
+    <%= f.submit %>
 </div>
 <% end %>
