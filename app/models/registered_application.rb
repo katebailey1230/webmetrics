@@ -1,5 +1,6 @@
 class RegisteredApplication < ActiveRecord::Base
   belongs_to :user
-  has_many :event
+  has_many :events, dependent: :destroy
 
+validates :user, presence: true
 end

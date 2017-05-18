@@ -7,7 +7,7 @@ Rails.application.routes.draw do
  root to: 'welcome#index'
 
  namespace :api, defaults: { format: :json } do
-   match '/events', to: 'events#preflight', via: [:options]
+    match '/events', to: 'events#preflight', via: [:GET]
    resources :events, only: [:create]
  end
 end
