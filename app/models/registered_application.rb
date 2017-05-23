@@ -3,4 +3,5 @@ class RegisteredApplication < ActiveRecord::Base
   has_many :events, dependent: :destroy
 
 validates :user, presence: true
+validates :events, presence: true
 end

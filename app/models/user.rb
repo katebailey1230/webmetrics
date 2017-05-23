@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-has_many :registered_application
+has_many :registered_applications
 
 
   devise :database_authenticatable, :registerable, :confirmable,

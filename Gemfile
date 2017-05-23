@@ -24,6 +24,7 @@ source 'https://rubygems.org'
  gem 'devise'
  gem 'pundit'
  gem 'chartkick'
+ gem 'rack-cors'
 
  group :development, :test do
    gem 'byebug'

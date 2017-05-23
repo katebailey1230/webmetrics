@@ -1,20 +1,24 @@
 class EventsController < ApplicationController
   def create
-    @registered_app = RegisteredApplication.find(params[:registered_application_id])
-    @event = @registered_app.event.new(event_params)
+    @registered_application = RegisteredApplication.find(params[:registered_application_id])
+    @event = @registered_application.event.new(event_params)
 
     if @event.save
       flash[:notice] = "Event saved successfully."
-      redirect_to @registered_app
+      redirect_to @registered_application
     else
       flash[:alert] = "There was an error saving the event."
-      redirect_to @registered_app
+      redirect_to @registered_application
   end
+
+  def show
+    @registered_application = RegisteredApplication.find(params[:registered_application_id])
+    @events = @registered_application.event.new(event_params)
 
   private
 
   def event_params
-    params.require(:event).permit(:name)
+    params.permit(:name)
   end
 
 end

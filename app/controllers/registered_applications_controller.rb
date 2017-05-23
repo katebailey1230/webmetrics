@@ -6,29 +6,28 @@ class RegisteredApplicationsController < ApplicationController
 
 
   def create
-    @registered_application = RegisteredApplication.new
-    @registered_application.name = params[:registered_application][:name]
-    @registered_application.url = params[:registered_application][:url]
-    @registered_application.user = current_user
+    @registered_application = RegisteredApplication.new(:registered_application_id)
 
-    if @registered_application.save
-      flash[:notice] = "You successfully registered your app."
-      redirect_to user_registered_application_path(current_user.id, @registered_application.id)
-    else
-      flash.now[:alert] = "There was an error registering your app. Please try again."
-      render :new
+      respond_to do |format|
+        if @registered_application.save
+          format.html { redirect_to @registered_application, notice: 'Registered application was successfully created.' }
+          format.json { render :show, status: :created, location: @registered_application }
+        else
+          format.html { render :new }
+          format.json { render json: @registered_application.errors, status: :unprocessable_entity }
+        end
+      end
     end
-  end
 
 def edit
-  @registered_application = RegisteredApplication.find(params[:id])
+  @registered_application = RegisteredApplication.find(params[:registered_application_id])
   end
 
   def destroy
-    @app = RegisteredApplication.find(params[:id])
+    @registered_application = RegisteredApplication.find(params[:registered_application_id])
 
-    if @app.destroy
-      flash[:notice] = "#{@app.name} was unregistered successfully."
+    if @registered_application.destroy
+      flash[:notice] = "#{@registered_application.name} was unregistered successfully."
       redirect_to registered_application_path
     else
       flash.now[:notice] = "There was an error unregistering the app."
@@ -37,36 +36,41 @@ def edit
   end
 
   def index
-    @event = Event.all
-    @registered_application = RegisteredApplication.find(params[:id])
-    @events = @registered_application.events.sort_by(&:name)
+    @registered_applications = RegisteredApplication.all
 
   end
 
   def show
-    @registered_application = RegisteredApplication.find(params[:id])
-    @events = @registered_application.events.sort_by(&:name)
+    @registered_application = RegisteredApplication.find(current_user)
+    @event = Event.find(@registered_application)
+    @events = @registered_application.events.group_by(&:name)
   end
 
   def update
-    @registered_application = RegisteredApplication.find(params[:id])
+    @registered_application = RegisteredApplication.find(application_params)
       @registered_application.name = params[:registered_application][:name]
       @registered_application.url = params[:registered_application][:url]
 
-      if @registered_application.save
-        flash[:notice] = "Registered app was updated successfully."
-        redirect_to user_registered_application_path
+      respond_to do |format|
+      if @registered_application.update(application_params)
+        format.html { redirect_to @registered_application, notice: 'Registered application was successfully updated.' }
+        format.json { render :show, status: :ok, location: @registered_application }
       else
-        flash.now[:alert] = "There was an error updating the registered app. Please try again."
-        render :edit
+        format.html { render :edit }
+        format.json { render json: @registered_application.errors, status: :unprocessable_entity }
       end
     end
+  end
 
 
   private
 
+  def event_params
+    params.permit(:name)
+  end
+
     def application_params
-      params.require(:registered_application).permit(:name, :url, :registered_application_id)
+      params.permit(:name, :url)
     end
 
     def user_log_in?

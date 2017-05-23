@@ -13,23 +13,32 @@ class API::EventsController < ApplicationController
         head 200
     end
 
-    def create
-        @registered_application = RegisteredApplication.find_by(url: request.env['HTTP_ORIGIN'])
-        if @registered_application.nil?
-           render json: 'Unregistered application', status: :unprocessable_entity and return
-        end
 
-        @event = @registered_application.events.new(event_params)
-        if @event.save
-            render json: @event, status: :created
-        else
-            render json: { errors: @event.errors }, status: :unprocessable_entity
-        end
-end
-
-    private
-
-    def event_params
-        params.require(:event).permit(:name)
+    def index
+    if request.method == "OPTIONS"
+     render :json => '', :content_type => 'application/json'
+     return
     end
+   end
+
+   def create
+    registered_application = RegisteredApplication.where(url: request.env['HTTP_ORIGIN']).try(:first)
+    if registered_application.nil?
+      render json: "Unregistered application", status: :unprocessable_entity
+    else
+      @event = registered_application.events.new(event_params)
+      if @event.save
+        render json: @event, status: :created
+      else
+        render json: @event.errors, status: :unprocessable_entity
+      end
+    end
+  end
+
+   private
+
+   def event_params
+     params.permit(:name)
+   end
+
  end
