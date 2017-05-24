@@ -4,13 +4,12 @@
   <div class="col-md-8">
     <h4>URL: <%= link_to @registered_application.url, "#{@registered_application.url}" %></h4>
     <%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %>
-    <%= javascript_include_tag "https://www.gstatic.com/charts/loader.js" %>
-    <%= pie_chart @registered_application.events.group(:name).count %>
-    <%= line_chart @registered_application.events.group_by_day(:created_at).count %>
+    <%= pie_chart @registered_applications.events.group(:name).count %>
+    <%= line_chart @registered_applications.events.group_by_day(:created_at).count %>
 
 
       <p style="font-size:14px;"><%= @events.count %> events created</p>
-      <p style="font-size:12px;">Added by <%= @registered_application.user.email %></p>
+      <p style="font-size:12px;">Added by <%= @registered_applications.user.try(:email) %></p>
 
   </div>
   <div class="col-md-4">

@@ -9,13 +9,14 @@ class EventsController < ApplicationController
     else
       flash[:alert] = "There was an error saving the event."
       redirect_to @registered_application
+    end
   end
-end
 
   def show
     @registered_application = RegisteredApplication.find(current_user)
     @events = @registered_application.events.new(event_params)
-end
+    <a id="post1" onclick="blocmetrics.report(this.id);" href="/path/to/post">Post 1</a>
+  end
 
   private
 
