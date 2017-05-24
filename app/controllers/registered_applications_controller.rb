@@ -20,34 +20,29 @@ class RegisteredApplicationsController < ApplicationController
     end
 
 def edit
-  @registered_application = RegisteredApplication.find(params[:registered_application_id])
+  @registered_application = RegisteredApplication.find(current_user)
   end
 
   def destroy
-    @registered_application = RegisteredApplication.find(params[:registered_application_id])
+    @registered_application = RegisteredApplication.find(current_user)
 
-    if @registered_application.destroy
+     @registered_application.destroy
       flash[:notice] = "#{@registered_application.name} was unregistered successfully."
       redirect_to registered_application_path
-    else
-      flash.now[:notice] = "There was an error unregistering the app."
-      render :new
-    end
   end
 
   def index
-    @registered_applications = RegisteredApplication.all
-
+    @registered_application = RegisteredApplication.find(current_user)
+    @event = Event.all
   end
 
   def show
     @registered_application = RegisteredApplication.find(current_user)
-    @event = Event.find(@registered_application)
-    @events = @registered_application.events.group_by(&:name)
+    @events = @registered_application.events
   end
 
   def update
-    @registered_application = RegisteredApplication.find(application_params)
+    @registered_application = RegisteredApplication.find(current_user)
       @registered_application.name = params[:registered_application][:name]
       @registered_application.url = params[:registered_application][:url]
 
@@ -65,12 +60,9 @@ def edit
 
   private
 
-  def event_params
-    params.permit(:name)
-  end
 
     def application_params
-      params.permit(:name, :url)
+      params.require(:registered_application).permit(:name, :url)
     end
 
     def user_log_in?

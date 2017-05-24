@@ -1,21 +1,21 @@
 require 'faker'
 
-10.times do
-  User.create!(
-    email: Faker::Internet.email,
-    password: Faker::Internet.password(8)
-  )
-  user = User.all
-
-end
-
-users = User.all
+user1 = User.create(email: "user1@test.com", password: "userpassword", confirmed_at: Time.now)
+user2 = User.create(email: "user2@test.com", password: "userpassword", confirmed_at: Time.now)
 
 10.times do
   RegisteredApplication.create!(
     name: Faker::Company.name,
     url: Faker::Internet.url,
-    user: users.sample
+    user: user1
+  )
+end
+
+10.times do
+  RegisteredApplication.create!(
+    name: Faker::Company.name,
+    url: Faker::Internet.url,
+    user: user2
   )
 end
 
@@ -23,12 +23,12 @@ registered_application = RegisteredApplication.all
 
 20.times do
   Event.create!(
-    name: Faker::Lorem.word,
+    name: Faker::Lorem.words,
     registered_application: registered_application.sample
   )
 end
 
-events = Event.all
+
 
 puts "Seed Data Created"
 puts "#{User.count} users created"

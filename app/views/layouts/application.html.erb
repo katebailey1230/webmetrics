@@ -4,12 +4,13 @@
   <title>Blocmetrics</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
   <div class="container">
               <ul class="nav nav-tabs">
-                  <li><%= link_to "Blocmetrics", welcome_index_path %></li>
+                  <li><%= link_to "Blocmetrics", root_path %></li>
                   <li><%= link_to "URLs", registered_applications_path %></li>
                   <% if current_user %>
                   <li><%= link_to('Logout', destroy_user_session_path, :method => :delete) %></li>

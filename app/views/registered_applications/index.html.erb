@@ -6,22 +6,18 @@
     <tr>
       <th>Name</th>
       <th>URL</th>
-      <th>Show</th>
       <th>Edit</th>
       <th>Delete App</th>
     </tr>
   </thead>
 
   <tbody>
-    <% @registered_applications.each do |registered_application| %>
       <tr>
-        <td><%= registered_application.name %></td>
-        <td><a href="<%= registered_application.url %>"><%= registered_application.url %></a></td>
-        <td><%= link_to 'Show', events#show %></td>
-        <td><%= link_to 'Edit', edit_registered_application_path %></td>
-        <td><%= link_to 'Delete', registered_application_path, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= @registered_application.name %></td>
+        <td><a href="<%= @registered_application.url %>"><%= @registered_application.url %></a></td>
+        <td><%= link_to 'Edit', edit_registered_application_path(current_user.id) %></td>
+        <td><%= link_to 'Delete', registered_application_path(current_user.id), method: :destroy, data: { confirm: 'Are you sure?' } %></td>
       </tr>
-    <% end %>
   </tbody>
   <tfoot>
     <th colspan="5" align="center"><%= link_to 'Register A New Application', new_registered_application_path, class: 'btn btn-lg btn-success center-block' %></th>

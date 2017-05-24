@@ -10,16 +10,16 @@ class EventsController < ApplicationController
       flash[:alert] = "There was an error saving the event."
       redirect_to @registered_application
   end
+end
 
   def show
-    @registered_application = RegisteredApplication.find(params[:registered_application_id])
-    @events = @registered_application.event.new(event_params)
+    @registered_application = RegisteredApplication.find(current_user)
+    @events = @registered_application.events.new(event_params)
+end
 
   private
 
   def event_params
     params.permit(:name)
   end
-
-end
 end
