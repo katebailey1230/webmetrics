@@ -10,10 +10,10 @@ class RegisteredApplicationsController < ApplicationController
   end
 
   def show
-    @registered_application = RegisteredApplication.find(params[:id]).includes(:events)
-
-
-  end
+    @app = RegisteredApplication.includes(:events).where(id: params[:id]).first
+    @registered_application = current_user.registered_applications
+    @events = Event.all
+end
 
   def create
     @registered_application = RegisteredApplication.new(:registered_application_id)
@@ -42,7 +42,7 @@ class RegisteredApplicationsController < ApplicationController
 
 
   def update
-    @registered_application = RegisteredApplication.find(current_user)
+      @registered_application = RegisteredApplication.find(current_user)
       @registered_application.name = params[:registered_application][:name]
       @registered_application.url = params[:registered_application][:url]
 
