@@ -1,10 +1,5 @@
-== README
 
-var blocmetrics = {};
- blocmetrics.report = function(eventName){
-   var event = {event: { name: eventName }};
-   var request = new XMLHttpRequest();
-   request.open("POST", "http://localhost:3000/api/events", true);
-   request.setRequestHeader('Content-Type', 'application/json');
-   request.send(JSON.stringify(event));
-}
+*** This uses Ruby on Rails v. 4.2.5 and Ruby v. < 3.0
+
+This analytics service has a client-side JavaScript snippet that allows a user to track events on their website, a server-side API that captures and saves those events to a database, and an app that displays the event data for the user.
+
